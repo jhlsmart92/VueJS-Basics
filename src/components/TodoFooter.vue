@@ -8,7 +8,7 @@
 export default {
   methods: {
     clearTodo() {
-      localStorage.clear();
+      this.$emit('removeAll'); // send removeAll event to App.vue
     }
   }
 };

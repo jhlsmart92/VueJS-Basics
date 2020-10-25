@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <TodoInput></TodoInput>
-    <TodoList></TodoList>
-    <TodoFooter></TodoFooter>
+    <TodoInput v-on: addTodo= "addTodo"></TodoInput>
+    <TodoList v-bind:propsdata = "todoItems"></TodoList>
+    <TodoFooter v-on:removeAll="clearAll"></TodoFooter>
   </div>
 </template>
 
@@ -13,6 +13,33 @@ import TodoInput from "./components/TodoInput.vue";
 import TodoList from "./components/TodoList.vue";
 import TodoFooter from "./components/TodoFooter.vue";
 export default {
+  data() {
+    return {
+      todoItems: []
+    }
+  },
+
+    // push all datas of the localhistory in to todoItems
+  created() {  // after Vue instance created, move data from localhistory to vue data
+    if(localStorage.length > 0) {
+      for(var i = 0; i < localStorage.length; i++) {
+        this.todoItems.push(localStorage.key(i));
+      }
+    }
+  },
+
+  methods: {
+    addTodo(todoItem) { // add data to local history
+      localStorage.setItem(todoItem, todoItem);
+      this.todoItems.push(todoItem);
+    },
+  
+    clearAll() {
+      localStorage.clear();
+      this.todoItems =[];
+    },
+  },
+
   components: {
     TodoHeader: TodoHeader,
     TodoInput: TodoInput,

@@ -1,39 +1,27 @@
 <template>
   <section>
-    <ul>
-      <li v-for="(todoItem, index) in todoItems" class= "shadow"> <!--show local history data on the vue-->
+      <transition-group name="list" tag="ul">
+      <li v-for="(todoItem, index) in propsdata" :key="todoItem" class= "shadow"> <!--show local history data on the vue-->
         <i class = "checkBtn fa fa-check" aria-hidden="true"> </i>
         {{todoItem}}
         <span class = "removeBtn" type="button" @click = "removeTodo(todoItem, index)">
           <i class ="fa fa-trash-o" aria-hidden = "true"></i>
         </span>
       </li>
-    </ul>
+      </transition-group>
   </section>
 </template>
 
 <script>
 export default {
-  data() {
-    return{
-      todoItems: []// storage for localstorage data
-    }
-  },
-  // push all datas of the localhistory in to todoItems
-  created() {  // after Vue instance created, move data from localhistory to vue data
-    if(localStorage.length > 0) {
-      for(var i = 0; i < localStorage.length; i++) {
-        this.todoItems.push(localStorage.key(i));
-      }
-    }
-  },
+  props: ['propsdata'],
 
   methods: {
     removeTodo(todoItem,index) { // index is internally managed in the Vue system
       localStorage.removeItem(todoItem);
       this.todoItems.splice(index, 1); //splice is the internally given JS API removing the array factor according to the number
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -62,6 +50,13 @@ export default {
   .removeBtn {
     margin-left: auto;
     color: #de4343;
+  }
+  .list-item {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  .list-move {
+    transition: transform 1s;
   }
   .list-enter-active, .list-leave-active {
     transition: all 1s;

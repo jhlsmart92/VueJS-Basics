@@ -4,14 +4,26 @@
     <span class="addContainer" v-on:click="addTodo">
       <i class="addBtn fa fa-plus" aria-hidden="true"></i>
     </span>
-  </div>
+ 
+
+  <modal v-if="showModal" @close = "showModal=false">
+    <h3 slot = "header"> warning </h3> <!--modal header-->
+    <span slot = "footer" @click = "showModal= false">
+      please write Todo
+      <i class = "closeModalBtn fa fa-times" aria-hidden="true"></i>
+    </span>
+  </modal>
+   </div>
 </template>
 
 <script>
+import Modal from './common/Modal.vue'
+
 export default {
   data() {
     return {
       newTodoItem: '',
+      showModal: false
     }
   },
   methods: {
@@ -19,12 +31,17 @@ export default {
       //console.log(this.newTodoItem); //this= the component App
       if (this.newTodoItem !== ""){
         var value = this.newTodoItem && this.newTodoItem.trim(); // remove the back and forth text in the input box
-        localStorage.setItem(value, value); //setItem(key, Value)
+        this.$emit('addTodo', value);  // send event from Todoinput component to App component
         this.clearInput(); //initailize the input box input
+      } else {
+        this.showModal = !this.showModal;
       }
     },
     clearInput() {
       this.newTodoItem = '';
+    },
+    components: {
+      Modal: Modal
     }
   }
 };
