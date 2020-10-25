@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <TodoHeader></TodoHeader>
-    <TodoInput v-on: addTodo= "addTodo"></TodoInput>
-    <TodoList v-bind:propsdata = "todoItems"></TodoList>
+    <TodoInput v-on:addTodo = "addTodo"></TodoInput>
+    <TodoList v-bind:propsdata = "todoItems" @removeTodo= "removeTodo"></TodoList>
     <TodoFooter v-on:removeAll="clearAll"></TodoFooter>
   </div>
 </template>
@@ -12,6 +12,7 @@ import TodoHeader from "./components/TodoHeader.vue";
 import TodoInput from "./components/TodoInput.vue";
 import TodoList from "./components/TodoList.vue";
 import TodoFooter from "./components/TodoFooter.vue";
+
 export default {
   data() {
     return {
@@ -38,6 +39,11 @@ export default {
       localStorage.clear();
       this.todoItems =[];
     },
+
+    removeTodo(todoItem, index) { // revmoveTodo 함수 적는것 까먹었을때 왜 addTodo도 작동하지 않았는지?
+      localStorage.removeItem(todoItem);
+      this.todoItems.splice(index, 1);
+    }
   },
 
   components: {

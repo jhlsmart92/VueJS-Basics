@@ -37,13 +37,15 @@ export default {
         this.showModal = !this.showModal;
       }
     },
+
     clearInput() {
       this.newTodoItem = '';
     },
-    components: {
-      Modal: Modal
-    }
+  },
+  components: {
+    Modal: Modal
   }
+  
 };
 </script>
 

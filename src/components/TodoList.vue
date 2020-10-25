@@ -18,8 +18,9 @@ export default {
 
   methods: {
     removeTodo(todoItem,index) { // index is internally managed in the Vue system
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index, 1); //splice is the internally given JS API removing the array factor according to the number
+      //localStorage.removeItem(todoItem);
+      //this.todoItems.splice(index, 1); //splice is the internally given JS API removing the array factor according to the number
+      this.$emit('removeTodo', todoItem, index);
     },
   },
 };
